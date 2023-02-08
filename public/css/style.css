@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  position: relative;
+}
+
+#bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .5;
+  z-index: -1;
+}
+
+#popup {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  backdrop-filter: blur(2px);
+}
+
+#popup-cover {
+  background: black;
+  opacity: .9;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  position: fixed;
+  cursor: pointer;
+}
+
+#qr-canvas {
+  z-index: 10;
+  height: 300px;
+  width: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+
+input {
+  font-family: 'Outfit', sans-serif;
+}
+
+#app-title {
+  color: white;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 3.5rem;
+}
+
+.container {
+  max-width: 960px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  width: 100%;
+  height: 3rem;
+  font-size: large;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  background: white;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+#shortened-links {
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.link {
+  padding: 10px;
+  border-radius: 10px;
+  background: white;
+  margin-bottom: 10px;
+}
+
+.link p {
+  margin: 0;
+}
+
+.source p {
+  text-align: right;
+  margin-left: auto;
+}
+
+.source, .dest {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
