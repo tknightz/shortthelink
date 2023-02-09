@@ -19,12 +19,12 @@ function isValidURL(url){
 }
 
 async function submitLink(link){
-  if (!isValidURL(link)) return;
+  if (!isValidURL(link)) throw new Error("invalid URL!");
   try {
     const response = await sendReq("POST", "/shortlink", { link });
     return JSON.parse(response);
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
 
