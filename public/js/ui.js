@@ -48,7 +48,7 @@ class ShortenedLink {
     const ele = document.createElement("div");
     const clicked = document.createElement("p");
     const qrBtn = document.createElement("button");
-    qrBtn.textContent = "QR";
+    qrBtn.textContent = "🀫 QR Code";
     qrBtn.addEventListener("click", () => {
       togglePopup();
 
@@ -76,7 +76,7 @@ class ShortenedLink {
       qrCode.append(qrCanvas);
     })
     const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
+    editBtn.textContent = "🖋️ Edit";
 
     clicked.textContent = this.link.clicked + " clicked!";
 
@@ -90,7 +90,7 @@ class ShortenedLink {
 
 function createLinkComponent(link) {
   const ele = document.getElementById("shortened-links");
-  ele.append(new ShortenedLink(link));
+  ele.insertBefore(new ShortenedLink(link), ele.firstChild);
 }
 
 function viewQRCode(){
