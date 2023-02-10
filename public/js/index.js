@@ -28,7 +28,24 @@ async function submitLink(link){
   }
 }
 
+async function editLink(oldLink, newLink) {
+  try {
+    const response = await sendReq("PATCH", "/shortlink", { oldLink, newLink });
+    return JSON.parse(response);
+  } catch (error) {
+    throw error;
+  }
+}
+
 function togglePopup(){
   const popupDisplay = popup.style.display;
   popup.style.display = popupDisplay === "flex" ? "none" : "flex";
+}
+
+function selectElementContents(el) {
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
 }

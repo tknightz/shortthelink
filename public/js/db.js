@@ -41,3 +41,17 @@ function pushLinkToDb(link){
   const objectStore = transaction.objectStore("links");
   objectStore.add(link);
 }
+
+function updateNewLink(oldLink, newLink) {
+  const transaction = db.transaction(["links"], "readwrite");
+  const objectStore = transaction.objectStore("links");
+  const getDataReq = objectStore.get(oldLink);
+
+  getDataReq.onsuccess = (event) => {
+    if (getDataReq.result) {
+      objectStore.delete(oldLink);
+      objectStore.add({ ...getDataReq.result, dest: newLink });
+    }
+  };
+
+}

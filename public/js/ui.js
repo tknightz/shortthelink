@@ -2,6 +2,7 @@ class ShortenedLink {
   constructor(link) {
     this.link = link;
     this.dest = location.origin + "/" + this.link.dest;
+    this.linkId = null;
     return this.render();
   }
 
@@ -34,9 +35,37 @@ class ShortenedLink {
   renderDest(){
     const dest = document.createElement("div");
     const link = document.createElement("a");
+    const prefix = document.createElement("p");
+    this.linkId = document.createElement("p");
+    this.linkId.classList.add("linkId");
+    prefix.textContent = location.origin + "/";
+    this.linkId.textContent = this.link.dest;
+    this.linkId.disabled = true;
+
+    this.linkId.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.linkId.setAttribute("contenteditable", false);
+        const oldLink = this.link.dest;
+        const newLink = this.linkId.innerText;
+        editLink(oldLink, newLink)
+          .then(res => {
+            if (res.dest) {
+              updateNewLink(oldLink, newLink);
+              this.link.dest = res.dest;
+              link.href = res.dest;
+            }
+            else this.linkId.innerText = oldLink;
+          })
+          .catch(() => this.linkId.innerText = oldLink)
+      }
+    })
+
+
     link.href = this.link.dest;
     link.target = "_blank";
-    link.textContent = (location.origin + "/" + this.link.dest);
+    link.appendChild(prefix);
+    link.appendChild(this.linkId);
 
     dest.classList.add("dest");
     dest.appendChild(link);
@@ -47,6 +76,8 @@ class ShortenedLink {
   renderActions(){
     const ele = document.createElement("div");
     const clicked = document.createElement("p");
+
+    // qr btn handler
     const qrBtn = document.createElement("button");
     qrBtn.textContent = "🀫 QR Code";
     qrBtn.addEventListener("click", () => {
@@ -56,7 +87,7 @@ class ShortenedLink {
         width: 300,
         height: 300,
         type: "svg",
-        data: this.dest,
+        data: location.origin + "/" + this.link.dest,
         image: "/favicon/favicon-32x32.png",
         dotsOptions: {
           color: "black",
@@ -75,8 +106,15 @@ class ShortenedLink {
       qrCanvas.innerHTML = "";
       qrCode.append(qrCanvas);
     })
+
+    // edit btn handler
     const editBtn = document.createElement("button");
     editBtn.textContent = "🖋️ Edit";
+    editBtn.addEventListener("click", () => {
+      this.linkId.setAttribute("contenteditable", true);
+      selectElementContents(this.linkId)
+    })
+
 
     clicked.textContent = this.link.clicked + " clicked!";
 
@@ -91,27 +129,4 @@ class ShortenedLink {
 function createLinkComponent(link) {
   const ele = document.getElementById("shortened-links");
   ele.insertBefore(new ShortenedLink(link), ele.firstChild);
-}
-
-function viewQRCode(){
-  const qrCode = new QRCodeStyling({
-    width: 300,
-    height: 300,
-    type: "svg",
-    data: "https://www.facebook.com/",
-    image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-    dotsOptions: {
-      color: "#4267b2",
-      type: "rounded"
-    },
-    backgroundOptions: {
-      color: "#e9ebee",
-    },
-    imageOptions: {
-      crossOrigin: "anonymous",
-      margin: 20
-    }
-  });
-
-  qrCode.append(document.getElementById("canvas"));
 }

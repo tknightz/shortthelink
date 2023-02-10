@@ -143,10 +143,15 @@ a {
 
 .dest a {
   color: #4342be;
+  display: inline-flex;
 }
 
 .dest p {
   line-height: 2;
+}
+
+.dest .linkId {
+  outline: none;
 }
 
 .actions {
